@@ -1,0 +1,29 @@
+using { /Fortnite.com/Devices }
+using { /Verse.org/Simulation }
+using { /UnrealEngine.com/Temporary/Diagnostics }
+using {/Fortnite.com/Teams}
+using {/Verse.org/Simulation}
+using {/Fortnite.com/Characters}
+using { /Verse.org/Random }
+using { /Fortnite.com/Game }
+using {/Fortnite.com/FortPlayerUtilities}
+using {/UnrealEngine.com/Temporary/SpatialMath }
+
+
+quick_respawn := class(creative_device):
+    respawnposition: vector3=vector3{X:=174.011014, Y:=-5966.229098,Z:= 384.0}
+
+    @editable
+    ElimMachine : elimination_manager_device = elimination_manager_device{}
+
+
+    OnBegin<override>()<suspends>:void=
+
+        Print("Device Started")
+        Sleep(0.1)
+        ElimMachine.EliminatedEvent.Subscribe(SelfEliminated)
+
+
+    SelfEliminated (Agent: agent):void=
+        Print ("Eliminated Signal Recieved")
+        Agent.Respawn(respawnposition,rotation{})
